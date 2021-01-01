@@ -9,7 +9,7 @@ type DataFormat interface {
 	Flush() error
 }
 
-func Export(query string, connStr string, format DataFormat) error {
+func Export(query string, connStr string, format DataFormat, args ...interface{}) error {
 	db, err := pg.Connect(connStr)
 	if err != nil {
 		return err
@@ -17,7 +17,7 @@ func Export(query string, connStr string, format DataFormat) error {
 
 	defer db.Close()
 
-	rows, err := db.Queryx(query)
+	rows, err := db.Queryx(query, args)
 	if err != nil {
 		return err
 	}
